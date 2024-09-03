@@ -1,0 +1,14 @@
+.MainContainer{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.ContainerForm{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    border: 2px solid gray;
+    padding: 30px;
+    width: 300px;
+}
