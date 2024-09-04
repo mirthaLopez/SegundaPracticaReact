@@ -1,36 +1,71 @@
 import React from 'react'
 import '../styles/FormLogIn.css'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import GetUsers from '../services/getUsers';
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
+
 function FormLogIn() {
   ////// Carga de los datos///////////////
-  const [username, setUsername]= useState('');
+  const [correo, setUsername]= useState('');
   const [password, setPassword]= useState('');
+  const [mensaje, setMensaje]= useState('');
 
-  const cargaContraseña =(event) => {
+  const navigate = useNavigate();
+  const cargaContraseña = (event) => {
     setPassword(event.target.value);
   };
-  const cargaUsuario =(event) => {
+  const cargaUsuario = (event) => {
     setUsername(event.target.value);
   };
+  //// Carga Datos Server hook///////////////
+  const [dataUser, setDataUser]= useState([]);
+  ////// LLamado al server, get fecth//////////
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const data = await GetUsers();
+     setDataUser(data) /// obtengo dato del server mediante el hook
+    };
+    fetchUsers();
+  }, []);
 
-  const cargar = () => {
-    console.log(username);
-    console.log(password);
-    
-  };
+//////ESTA FUNCION PUEDE CARGAR ,HACER POST O BIEN REALIZAR VALIDACIONES
+const cargar = async () => {  
+  ///////////Buscar Usuario////////////////////////////
+  const validUser = dataUser.filter(usuario=> usuario.correo === correo && usuario.contrasena === password )  
+   if (validUser.length>0) {
+    Swal({
+      title: 'Has iniciado sesion con exito!',
+      text: 'Te redigiremos a la pagina principal',
+      icon: 'success',
+      confirmButtonText: 'Ok',
+      timer:1500
+       });
+    setTimeout(() => {
+      navigate('/Home');
+    }, 2000);
+
+  }else if (validUser.length===0){
+    setMensaje("Usuario No encontrado")
+ } }
+
+
+ function validacionEspacios(event) {
+  event.preventDefault();
   
-
+}
   ///////////Renderizado////////////
   return (
     <div className='MainContainer'>
         <div className='ContainerForm'>
+        <form className='formInicio' onSubmit={validacionEspacios}>
         <h1>Ingresa a tu Cuenta</h1>
         <label htmlFor="">Correo</label>
         <input type="text" 
-        id='username'
-        name='username'
-        placeholder='Ingrese su nombre'
-        value={username}
+        id='correo'
+        name='correo'
+        placeholder='Ingrese su correo'
+        value={correo}
         onChange={cargaUsuario}
         required/>
         <label htmlFor="">Contraseña</label>
@@ -42,9 +77,12 @@ function FormLogIn() {
         onChange={cargaContraseña}
         required />
         <button onClick={cargar}>Ingresar</button>
+        </form>
+      <p>{mensaje}</p>
        </div>
     </div>
   )
 }
+
 
 export default FormLogIn
