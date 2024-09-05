@@ -1,9 +1,10 @@
 import React from 'react'
-import CardUser from '../components/Prueba'
+import FormPrueba from '../components/Prueba'
+
 function PruebaPage() {
   return (
     <div>
-        <CardUser />
+      <FormPrueba />
     </div>
   )
 }

@@ -3,9 +3,12 @@ import React from 'react'
 import { useState,useEffect } from 'react';
 import postUsuario from '../services/postUsers';
 import GetUsers from '../services/getUsers';
-
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 
 function FormRegister() {
+  ////// Declaramos la variable para poder usar la funcion navigate//////////
+  const navigate = useNavigate();
   ////// Carga de los datos///////////////
   const [username, setUsername]= useState('');
   const [password, setPassword]= useState('');
@@ -40,17 +43,51 @@ function FormRegister() {
    }, []);   
   /////// Funcion post///////////
   const cargar = async () => { 
-  const correoValido= dataUser.filter(usuario=> usuario.correo === correo)
-  if (correoValido.length === 0) {
-    const usuario={
-      nombre:username,
-      correo:correo,
-      ciudad:city,
-      contrasena: password
-    }
-    console.log(usuario);
-    postUsuario(usuario);
-  }     
+    ///////Validamos espacios vacios//////////////
+    let validadorNombre = username.trim();
+    let validadorContra = password.trim();
+    let validadorCorreo = correo.trim();
+    let validadorCiudad = city.trim();
+  if (validadorNombre.length !== 0 && validadorCorreo.length !== 0 && validadorContra.length !== 0 && validadorCiudad.length !== 0 ) {
+    ////////Validamos que no se repida el correo////////
+    const correoValido= dataUser.filter(usuario=> usuario.correo === correo)
+    if (correoValido.length === 0) {
+      const usuario={
+        nombre:username,
+        correo:correo,
+        ciudad:city,
+        contrasena: password
+      }
+      postUsuario(usuario);
+      Swal({
+        title: 'Tu usuario ha sido registrado!',
+        text: 'Te redirigiremos automaticamente a la pagina de LogIn...',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        timer:2000
+         });
+         setTimeout(() => {
+          navigate('/Login');
+        }, 2000);
+  
+    }else if (correoValido.length === 1 ){
+      Swal({
+        title: 'Correo Invalido!',
+        text: 'Ya existe un usuario registrado con este correo',
+        icon: 'error',
+        confirmButtonText: 'Intenta Nuevamente',
+        timer:2000
+         });
+    } 
+  }else{
+    Swal({
+      title: 'Error!',
+      text:'Debes llenar todos los datos',
+      icon: 'error',
+      confirmButtonText: 'Intenta Nuevamente',
+      timer:2000
+       });
+  } 
   }
   ///////////Renderizacion de datos////////
   return (

@@ -10,6 +10,7 @@ function FormLogIn() {
   const [correo, setUsername]= useState('');
   const [password, setPassword]= useState('');
   const [mensaje, setMensaje]= useState('');
+ 
 
   const navigate = useNavigate();
   const cargaContraseña = (event) => {
@@ -34,6 +35,7 @@ const cargar = async () => {
   ///////////Buscar Usuario////////////////////////////
   const validUser = dataUser.filter(usuario=> usuario.correo === correo && usuario.contrasena === password )  
    if (validUser.length>0) {
+    localStorage.setItem("Autenticacion", "true")
     Swal({
       title: 'Has iniciado sesion con exito!',
       text: 'Te redigiremos a la pagina principal',
@@ -47,12 +49,14 @@ const cargar = async () => {
 
   }else if (validUser.length===0){
     setMensaje("Usuario No encontrado")
+    setTimeout(() => {
+      setMensaje("")
+    }, 1500);
  } }
 
 
  function validacionEspacios(event) {
   event.preventDefault();
-  
 }
   ///////////Renderizado////////////
   return (
@@ -68,6 +72,8 @@ const cargar = async () => {
         value={correo}
         onChange={cargaUsuario}
         required/>
+
+
         <label htmlFor="">Contraseña</label>
         <input type="text"
         id='password'
@@ -76,6 +82,8 @@ const cargar = async () => {
         value={password}
         onChange={cargaContraseña}
         required />
+        
+
         <button onClick={cargar}>Ingresar</button>
         </form>
       <p>{mensaje}</p>

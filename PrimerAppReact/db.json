@@ -6,52 +6,6 @@
       "correo": "mirtha_guido@outlook.com",
       "ciudad": "Guancaste",
       "contrasena": "@lban5856"
-    },
-    {
-      "id": "fe1c",
-      "nombre": "Mirtha Lopez",
-      "correo": "mirtha_guido@ou",
-      "ciudad": "Guancaste",
-      "contrasena": "@lban5856"
-    },
-    {
-      "id": "e573",
-      "nombre": "Mirtha Lopez",
-      "correo": "mirtha_guido@outlook.com",
-      "ciudad": "Guancaste",
-      "contrasena": "@lban5856"
-    },
-    {
-      "id": "d9a7",
-      "nombre": "Mirtha Lopez",
-      "correo": "mirtha_guido@outlook.com",
-      "ciudad": "Guancaste",
-      "contrasena": "@lban5856"
-    },
-    {
-      "id": "4ccb",
-      "nombre": "Mirtha Lopez",
-      "correo": "mirtha.com",
-      "ciudad": "Guancaste",
-      "contrasena": "@lban5856"
-    }
-  ],
-  "producto": [
-    {
-      "id": "1",
-      "descripcion": "Configuración del ambiente",
-      "proyecto": {
-        "id": 1,
-        "nombre": "Alura Tracker 3.0"
-      }
-    },
-    {
-      "descripcion": "Defactorización vuex 4",
-      "proyecto": {
-        "id": 1,
-        "nombre": "Alura Tracker 3.0"
-      },
-      "id": "2"
     }
   ],
   "tareas": {

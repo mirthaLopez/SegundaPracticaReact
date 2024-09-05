@@ -1,37 +1,22 @@
-import GetUsers from "../services/getUsers";
-import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-function CardUser() {
+function FormPrueba() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },    
+  } = useForm();
 
-
-    const [users, setUsers] = useState([]);
-
-
-    useEffect(() => {
-      const fetchUsers = async () => {
-        const data = await GetUsers();
-       
-        
-        setUsers(data);
-   
-      };
-      fetchUsers();
-    }, []);
-
-    console.log(users)
-
-
-
-    return (
-      <div>
-        <h1>Lista de Usuarios</h1>
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>{user.name}</li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
-  
-export default CardUser
+  return (
+    <form onSubmit={handleSubmit((data) => console.log(data))}>
+      <input {...register('firstName',{ required: true })} />
+      {errors.firstName && <p>First name is required.</p>}
+      <input {...register('lastName', { required: true })} />
+      {errors.lastName && <p>Last name is required.</p>}
+      <input {...register('age', { pattern: /\d+/ })} />
+      {errors.age && <p>Please enter number for age.</p>}
+      <input type="submit" />
+    </form>
+  );
+}
+export default FormPrueba
